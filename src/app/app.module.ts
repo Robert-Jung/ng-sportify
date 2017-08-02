@@ -8,16 +8,23 @@ import { LocationStrategy, HashLocationStrategy, APP_BASE_HREF } from '@angular/
 import { AppComponent } from './app.component';
 import { AlbumComponent } from './album/album.component';
 import { ArtistComponent } from './artist/artist.component';
+import { SearchComponent } from './search/search.component';
+
+import { SPOTIFY_PROVIDERS } from './spotify.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'search', pathMatch: 'full' },
+  { path: 'search', component: SearchComponent },
+  { path: 'artists/:id', component: ArtistComponent },
+  { path: 'albums/:id', component: AlbumComponent },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumComponent,
-    ArtistComponent
+    ArtistComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +32,11 @@ const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    SPOTIFY_PROVIDERS,
+    {provide: APP_BASE_HREF, useValue: '/'},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
